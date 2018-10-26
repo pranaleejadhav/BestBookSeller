@@ -16,10 +16,11 @@
         <attribute name="display_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="last_saved" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="list_name_encoded" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="published_date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="booklist" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Book" inverseName="bookcategory" inverseEntity="Book" syncable="YES"/>
     </entity>
     <elements>
-        <element name="BookCategory" positionX="-63" positionY="-18" width="128" height="105"/>
         <element name="Book" positionX="-45" positionY="18" width="128" height="195"/>
+        <element name="BookCategory" positionX="-63" positionY="-18" width="128" height="120"/>
     </elements>
 </model>

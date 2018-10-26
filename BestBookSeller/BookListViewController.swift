@@ -13,6 +13,7 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
     @IBOutlet weak var tableView: UITableView!
     var tableArr = [Dictionary<String,Any>]()
     var category:String! = ""
+    var list_saved_date:String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +51,7 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
             self.showMsg(title: "Oops!", subTitle: "No Internet")
         }
     }
+    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1

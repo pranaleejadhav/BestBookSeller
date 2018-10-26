@@ -13,14 +13,16 @@ import CoreData
 
 class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
-    var tableArr = [JSON]()
+    var tableArr = [Dictionary<String,String>]()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let context:NSManagedObjectContext!
+    var context:NSManagedObjectContext!
+    let dateFormatter = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
         context = self.appDelegate.persistentContainer.viewContext
+        dateFormatter.dateFormat = "yyyy-mm-dd"
         fetchList()
     }
     
@@ -31,58 +33,94 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     //fetch data
     func fetchList() -> Void {
+        SVProgressHUD.show()
+        
+        let userdefaults = UserDefaults.standard
+        let list_saved_date = userdefaults.object(forKey: "list_saved_date")
+        
         if Connectivity.isConnectedToInternet {
-            SVProgressHUD.show()
             
-            let userdefaults = UserDefaults.standard
-            let list_saved_date = userdefaults.object(forKey: "list_saved_date")
-            if list_saved_date == nil || ( findDateDifference(old_date: (list_saved_date as? Date)!) < 0){
-                UserDefaults.standard.set(NSDate(), forKey: "list_saved_date")
-            getData(server_api: "lists/names.json", parameters: "", onSuccess: {(result) in
-                SVProgressHUD.dismiss()
-                let json = JSON(result)
-                print("ANSWER")
-                if json["results"].exists(){
-                    print(json["results"])
-                    
             
-                    for row in json["results"].array!{
-                        let category: BookCategory = BookCategory(context: self.context)
-                        category.display_name = row["display_name"].stringValue
-                        category.list_name_encoded = row["list_name_encoded"].stringValue
-                        //category.last_saved = Date()
-                    }
-                    do {
-                        try self.context.save()
-                    } catch {
-                        print("Failed saving")
-                    }
-                    self.tableArr = json["results"].array!
-                }
-               
+            if list_saved_date == nil || ( findDateDifference(old_date: (list_saved_date as? Date)!) > 0){
                 
-                /*if let dict = result as? Dictionary<String, Any>{
-                    if let arr = dict["results"] as? [Dictionary<String, Any>] {
-                        self.tableArr = arr
-                    }
-                }*/
-                //print(self.tableArr)
-                self.tableView.reloadData()
+                getDataFromApi()
                 
-            }, onFail: {(error) in
-                SVProgressHUD.dismiss()
-                self.showMsg(title: "Error", subTitle: "Please try again")
-            })
-        } else {
-                let request = NSFetchRequest<NSFetchRequestResult>(entityName: "BookCategory")
-                //request.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+            } else {
                 
-                
+                getSavedData()
                 
             }
         } else {
-            self.showMsg(title: "Oops!", subTitle: "No Internet")
+            if list_saved_date == nil {
+                SVProgressHUD.dismiss()
+                self.showMsg(title: "Oops!", subTitle: "No Internet")
+            } else {
+                getSavedData()
+            }
         }
+    }
+    
+    func getDataFromApi() {
+        print("getDataFromApi")
+        getData(server_api: "lists/names.json", parameters: "", onSuccess: {(result) in
+            SVProgressHUD.dismiss()
+            self.tableArr.removeAll()
+            let json = JSON(result!)
+            if json["results"].exists(){
+                //print(json["results"])
+                
+                for row in json["results"].array!{
+                    let category: BookCategory = BookCategory(context: self.context)
+                    let disp_name = row["display_name"].stringValue
+                    let disp_ename = row["list_name_encoded"].stringValue
+                    let published_date_str = row["newest_published_date"].stringValue
+                    
+                    let date = self.dateFormatter.date(from: published_date_str)
+                    
+                    category.display_name = disp_name
+                    category.list_name_encoded = disp_ename
+                    category.published_date = date
+                    
+                    self.tableArr.append(["display_name": disp_name, "list_name_encoded": disp_ename, "last_saved": ""])
+                 }
+                do {
+                    try self.context.save()
+                    UserDefaults.standard.set(NSDate(), forKey: "list_saved_date")
+                    self.tableView.reloadData()
+                } catch {
+                    print("Failed saving")
+                }
+            }
+            
+            
+        }, onFail: {(error) in
+            self.showMsg(title: "Error", subTitle: "Please try again")
+        })
+    }
+    
+    func getSavedData() {
+        print("getSavedData")
+        SVProgressHUD.dismiss()
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "BookCategory")
+        request.sortDescriptors = [NSSortDescriptor(key: "published_date", ascending: false)]
+        do {
+            tableArr.removeAll()
+            let result = try context.fetch(request)
+            
+            for data in result as! [NSManagedObject] {
+                var last_saved_str =  ""
+                
+                if let last_saved = data.value(forKey: "last_saved") {
+                    last_saved_str = dateFormatter.string(from: last_saved as! Date)
+                }
+                tableArr.append(["display_name":data.value(forKey: "display_name") as! String, "list_name_encoded":data.value(forKey: "display_name") as! String, "last_saved": last_saved_str])
+            }
+            self.tableView.reloadData()
+        } catch {
+            print("Failed retrieving data")
+        }
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -98,7 +136,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellItem")!
         
-        cell.textLabel?.text = tableArr[indexPath.row]["display_name"].stringValue
+        cell.textLabel?.text = tableArr[indexPath.row]["display_name"]
+        
         cell.tag = indexPath.row
         return cell
     }
@@ -126,8 +165,9 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             if let cell = sender as? UITableViewCell {
                 let i = tableView.indexPath(for: cell)!.row
                 let vc = segue.destination as! BookListViewController
-                vc.category = tableArr[i]["list_name_encoded"].stringValue
-                print(vc.category)
+                vc.category = tableArr[i]["list_name_encoded"]
+                vc.list_saved_date = tableArr[i]["last_saved"]
+                
             }
         }
     }
