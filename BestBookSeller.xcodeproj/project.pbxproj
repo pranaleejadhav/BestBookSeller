@@ -7,21 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C2AC7402181777F009922D7 /* BestBookSeller.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9C2AC73D21817659009922D7 /* BestBookSeller.xcdatamodeld */; };
 		9C873011217FDA5400B1FCE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C873010217FDA5400B1FCE4 /* AppDelegate.swift */; };
-		9C873013217FDA5400B1FCE4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C873012217FDA5400B1FCE4 /* ViewController.swift */; };
 		9C873016217FDA5400B1FCE4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C873014217FDA5400B1FCE4 /* Main.storyboard */; };
 		9C873018217FDA5500B1FCE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C873017217FDA5500B1FCE4 /* Assets.xcassets */; };
 		9C87301B217FDA5500B1FCE4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C873019217FDA5500B1FCE4 /* LaunchScreen.storyboard */; };
+		9C873023217FDB8F00B1FCE4 /* ServerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C873022217FDB8F00B1FCE4 /* ServerManager.swift */; };
+		9C873025217FDBAC00B1FCE4 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C873024217FDBAC00B1FCE4 /* ListViewController.swift */; };
+		9C87302721800D9100B1FCE4 /* BookListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C87302621800D9100B1FCE4 /* BookListViewController.swift */; };
+		9C87302921800DA100B1FCE4 /* BookDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C87302821800DA100B1FCE4 /* BookDetailsViewController.swift */; };
+		D54334E7F97E53060842DDBF /* Pods_BestBookSeller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8009BDA5AE56260171B58E31 /* Pods_BestBookSeller.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		51A6F53056562D7EFB0EBFE0 /* Pods-BestBookSeller.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BestBookSeller.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BestBookSeller/Pods-BestBookSeller.debug.xcconfig"; sourceTree = "<group>"; };
+		8009BDA5AE56260171B58E31 /* Pods_BestBookSeller.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BestBookSeller.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C2AC73E21817659009922D7 /* BestBookSeller.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BestBookSeller.xcdatamodel; sourceTree = "<group>"; };
 		9C87300D217FDA5400B1FCE4 /* BestBookSeller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BestBookSeller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C873010217FDA5400B1FCE4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9C873012217FDA5400B1FCE4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9C873015217FDA5400B1FCE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9C873017217FDA5500B1FCE4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9C87301A217FDA5500B1FCE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9C87301C217FDA5500B1FCE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9C873022217FDB8F00B1FCE4 /* ServerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerManager.swift; sourceTree = "<group>"; };
+		9C873024217FDBAC00B1FCE4 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		9C87302621800D9100B1FCE4 /* BookListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListViewController.swift; sourceTree = "<group>"; };
+		9C87302821800DA100B1FCE4 /* BookDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailsViewController.swift; sourceTree = "<group>"; };
+		DA208B9E10F78643567FFA08 /* Pods-BestBookSeller.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BestBookSeller.release.xcconfig"; path = "Pods/Target Support Files/Pods-BestBookSeller/Pods-BestBookSeller.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +41,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D54334E7F97E53060842DDBF /* Pods_BestBookSeller.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		849E685AB737A32EF38E3725 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8009BDA5AE56260171B58E31 /* Pods_BestBookSeller.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9C873004217FDA5400B1FCE4 = {
 			isa = PBXGroup;
 			children = (
 				9C87300F217FDA5400B1FCE4 /* BestBookSeller */,
 				9C87300E217FDA5400B1FCE4 /* Products */,
+				FE1E906F19816AEEC39BF42A /* Pods */,
+				849E685AB737A32EF38E3725 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,13 +78,26 @@
 			isa = PBXGroup;
 			children = (
 				9C873010217FDA5400B1FCE4 /* AppDelegate.swift */,
-				9C873012217FDA5400B1FCE4 /* ViewController.swift */,
 				9C873014217FDA5400B1FCE4 /* Main.storyboard */,
 				9C873017217FDA5500B1FCE4 /* Assets.xcassets */,
 				9C873019217FDA5500B1FCE4 /* LaunchScreen.storyboard */,
 				9C87301C217FDA5500B1FCE4 /* Info.plist */,
+				9C873022217FDB8F00B1FCE4 /* ServerManager.swift */,
+				9C873024217FDBAC00B1FCE4 /* ListViewController.swift */,
+				9C87302621800D9100B1FCE4 /* BookListViewController.swift */,
+				9C87302821800DA100B1FCE4 /* BookDetailsViewController.swift */,
+				9C2AC73D21817659009922D7 /* BestBookSeller.xcdatamodeld */,
 			);
 			path = BestBookSeller;
+			sourceTree = "<group>";
+		};
+		FE1E906F19816AEEC39BF42A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				51A6F53056562D7EFB0EBFE0 /* Pods-BestBookSeller.debug.xcconfig */,
+				DA208B9E10F78643567FFA08 /* Pods-BestBookSeller.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +107,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9C87301F217FDA5500B1FCE4 /* Build configuration list for PBXNativeTarget "BestBookSeller" */;
 			buildPhases = (
+				FCB0E30BD41338E8FD97B963 /* [CP] Check Pods Manifest.lock */,
 				9C873009217FDA5400B1FCE4 /* Sources */,
 				9C87300A217FDA5400B1FCE4 /* Frameworks */,
 				9C87300B217FDA5400B1FCE4 /* Resources */,
+				FDCA0584E96B77CB8EB2F3C3 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -130,13 +168,60 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		FCB0E30BD41338E8FD97B963 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BestBookSeller-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FDCA0584E96B77CB8EB2F3C3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BestBookSeller/Pods-BestBookSeller-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BestBookSeller/Pods-BestBookSeller-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		9C873009217FDA5400B1FCE4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C873013217FDA5400B1FCE4 /* ViewController.swift in Sources */,
+				9C873023217FDB8F00B1FCE4 /* ServerManager.swift in Sources */,
+				9C2AC7402181777F009922D7 /* BestBookSeller.xcdatamodeld in Sources */,
+				9C873025217FDBAC00B1FCE4 /* ListViewController.swift in Sources */,
 				9C873011217FDA5400B1FCE4 /* AppDelegate.swift in Sources */,
+				9C87302921800DA100B1FCE4 /* BookDetailsViewController.swift in Sources */,
+				9C87302721800D9100B1FCE4 /* BookListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +363,7 @@
 		};
 		9C873020217FDA5500B1FCE4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 51A6F53056562D7EFB0EBFE0 /* Pods-BestBookSeller.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -295,6 +381,7 @@
 		};
 		9C873021217FDA5500B1FCE4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA208B9E10F78643567FFA08 /* Pods-BestBookSeller.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -332,6 +419,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9C2AC73D21817659009922D7 /* BestBookSeller.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9C2AC73E21817659009922D7 /* BestBookSeller.xcdatamodel */,
+			);
+			currentVersion = 9C2AC73E21817659009922D7 /* BestBookSeller.xcdatamodel */;
+			path = BestBookSeller.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 9C873005217FDA5400B1FCE4 /* Project object */;
 }
