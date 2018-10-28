@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9C2AC7402181777F009922D7 /* BestBookSeller.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9C2AC73D21817659009922D7 /* BestBookSeller.xcdatamodeld */; };
+		9C3353D42186289600501FCF /* CustomLaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3353D32186289600501FCF /* CustomLaunchViewController.swift */; };
 		9C873011217FDA5400B1FCE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C873010217FDA5400B1FCE4 /* AppDelegate.swift */; };
 		9C873016217FDA5400B1FCE4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C873014217FDA5400B1FCE4 /* Main.storyboard */; };
 		9C873018217FDA5500B1FCE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C873017217FDA5500B1FCE4 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 		51A6F53056562D7EFB0EBFE0 /* Pods-BestBookSeller.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BestBookSeller.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BestBookSeller/Pods-BestBookSeller.debug.xcconfig"; sourceTree = "<group>"; };
 		8009BDA5AE56260171B58E31 /* Pods_BestBookSeller.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BestBookSeller.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C2AC73E21817659009922D7 /* BestBookSeller.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BestBookSeller.xcdatamodel; sourceTree = "<group>"; };
+		9C3353D32186289600501FCF /* CustomLaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLaunchViewController.swift; sourceTree = "<group>"; };
 		9C87300D217FDA5400B1FCE4 /* BestBookSeller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BestBookSeller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C873010217FDA5400B1FCE4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9C873015217FDA5400B1FCE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				9C87302621800D9100B1FCE4 /* BookListViewController.swift */,
 				9C87302821800DA100B1FCE4 /* BookDetailsViewController.swift */,
 				9C2AC73D21817659009922D7 /* BestBookSeller.xcdatamodeld */,
+				9C3353D32186289600501FCF /* CustomLaunchViewController.swift */,
 			);
 			path = BestBookSeller;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 				9C873023217FDB8F00B1FCE4 /* ServerManager.swift in Sources */,
 				9C2AC7402181777F009922D7 /* BestBookSeller.xcdatamodeld in Sources */,
 				9C873025217FDBAC00B1FCE4 /* ListViewController.swift in Sources */,
+				9C3353D42186289600501FCF /* CustomLaunchViewController.swift in Sources */,
 				9C873011217FDA5400B1FCE4 /* AppDelegate.swift in Sources */,
 				9C87302921800DA100B1FCE4 /* BookDetailsViewController.swift in Sources */,
 				9C87302721800D9100B1FCE4 /* BookListViewController.swift in Sources */,

@@ -19,10 +19,11 @@
     </entity>
     <entity name="BookCategory" representedClassName="BookCategory" syncable="YES" codeGenerationType="class">
         <attribute name="display_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="last_saved" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="list_name_encoded" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="modified_date" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="published_date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="booklist" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Book" inverseName="bookcategory" inverseEntity="Book" syncable="YES"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
@@ -32,6 +33,6 @@
     </entity>
     <elements>
         <element name="Book" positionX="-45" positionY="18" width="128" height="195"/>
-        <element name="BookCategory" positionX="-63" positionY="-18" width="128" height="135"/>
+        <element name="BookCategory" positionX="-63" positionY="-18" width="128" height="150"/>
     </elements>
 </model>

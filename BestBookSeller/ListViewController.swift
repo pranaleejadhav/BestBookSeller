@@ -11,23 +11,69 @@ import SVProgressHUD
 import SwiftyJSON
 import CoreData
 
+
+extension ListViewController: UISearchResultsUpdating {
+    // MARK: - UISearchResultsUpdating Delegate
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+        
+
+    }
+}
+
+
+
 class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
-    var tableArr = [Dictionary<String,String>]()
+    
+    var tableArr = [Dictionary<String,Any>]()
+    var filteredList = [Dictionary<String,Any>]()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var context:NSManagedObjectContext!
     let dateFormatter = DateFormatter()
     var categoryItems = [BookCategory]()
     var today_date:String!
+    let searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
+        tableView.keyboardDismissMode = .onDrag
         context = self.appDelegate.persistentContainer.viewContext
         context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         dateFormatter.dateFormat = "yyyy-mm-dd"
+        let fullDateFormatter = DateFormatter()
+        fullDateFormatter.dateFormat = "yyyy-mm-dd HH:mm:ss"
         today_date = dateFormatter.string(from: Date())
+        
+        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.1765674055, green: 0.4210852385, blue: 0.8841049075, alpha: 1)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.tintColor = UIColor.white
+        
+        
+        // Setup the Search Controller
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        //searchController.searchBar.placeholder = "Search Categories"
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        definesPresentationContext = true
+        searchController.searchBar.tintColor = .white
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white]
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).attributedPlaceholder = NSAttributedString(string: "Search Categories", attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+
+        
         fetchList()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        //searchController.isActive = true
+        self.title = "List of Book Categories"
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.title = ""
     }
     
     func findDateDifference(old_date: Date)->Int{
@@ -40,7 +86,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         SVProgressHUD.show()
         
         let userdefaults = UserDefaults.standard
-        let list_saved_date = userdefaults.object(forKey: "list_saved_date1")
+        let list_saved_date = userdefaults.object(forKey: "list_saved_date")
         
         if Connectivity.isConnectedToInternet {
             
@@ -64,6 +110,29 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
+    func getBookItems() {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "BookCategory")
+        request.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        do {
+            let result = try self.context.fetch(request)
+            categoryItems = result as! [BookCategory]
+        } catch {
+            
+        }
+    }
+    
+    func getEntityObj(list_name: String) -> BookCategory{
+        if categoryItems.count == 0 {
+            print("inside")
+            return BookCategory(context: self.context)
+        } else {
+            print("inside else")
+            let filtered_book = categoryItems.filter{ $0.list_name_encoded == list_name }[0]
+            return filtered_book
+            
+        }
+    }
+    
     func getDataFromApi() {
         print("getDataFromApi")
         getData(server_api: "lists/names.json", parameters: "", onSuccess: {(result) in
@@ -72,45 +141,43 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let json = JSON(result!)
             if json["results"].exists(){
                 //print(json["results"])
-                let request = NSFetchRequest<NSFetchRequestResult>(entityName: "BookCategory")
-                do {
-                    let result = try self.context.fetch(request)
-                    self.categoryItems = result as! [BookCategory]
-                } catch {
-                    
-                }
-                
+               
+                //self.deteleOldData()
+                self.getBookItems()
+                var i = 0
                 for row in json["results"].array!{
                    
-                    
-                    //let category =  //BookCategory(context: self.context)
-                    let disp_name = row["display_name"].stringValue
                     let disp_ename = row["list_name_encoded"].stringValue
+                    let category =  self.getEntityObj(list_name: disp_ename)
+                    let disp_name = row["display_name"].stringValue
                     let published_date_str = row["newest_published_date"].stringValue
-                     let category = self.categoryItems.filter{ $0.list_name_encoded != disp_ename}[0]
-                    let date = self.dateFormatter.date(from: published_date_str)
                     
                     category.list_name_encoded = disp_ename
                     category.display_name = disp_name
-                    category.published_date = date
                     category.modified_date = self.today_date
+                    category.id = Int32(i)
                     
                     //category.last_saved = date
                     //category.booklist = nil
                     //print("category \(category)")
                     
-                    self.tableArr.append(["display_name": disp_name, "list_name_encoded": disp_ename, "last_saved": ""])
+                    self.tableArr.append(["display_name": disp_name, "id": i])
+                    i += 1
                  }
                
                 
                 do {
                     try self.context.save()
-                    print(self.categoryItems)
+                    self.getBookItems()
+                    
+                    //print(self.categoryItems)
                     self.deteleOldData()
                     //let request = NSFetchRequest<NSFetchRequestResult>(entityName: "BookCategory")
                    // let result = try self.context.fetch(request)
                 //self.categoryItems = result as! [BookCategory]
                  //   UserDefaults.standard.set(Date(), forKey: "list_saved_date")
+                    
+                   //self.tableArr = self.tableArr.sorted { $0["published_date"]! >  $1["published_date"]!}
                     self.tableView.reloadData()
                 } catch let error as NSError {
                     print("Failed saving \(error)")
@@ -125,9 +192,9 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func getSavedData() {
         print("getSavedData")
         SVProgressHUD.dismiss()
-        deteleOldData()
+        
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "BookCategory")
-        request.sortDescriptors = [NSSortDescriptor(key: "published_date", ascending: false)]
+        request.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
         do {
             tableArr.removeAll()
             
@@ -140,7 +207,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 if let last_saved = data.value(forKey: "last_saved") {
                     last_saved_str = dateFormatter.string(from: last_saved as! Date)
                 }
-                tableArr.append(["display_name":data.value(forKey: "display_name") as! String, "list_name_encoded":data.value(forKey: "display_name") as! String, "last_saved": last_saved_str])
+                tableArr.append(["id":data.value(forKey: "id") as! Int, "display_name":data.value(forKey: "display_name") as! String])
             }
             self.tableView.reloadData()
         } catch {
@@ -168,17 +235,27 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+        if isFiltering() {
+            return filteredList.count
+        }
         return tableArr.count
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellItem")!
+        var item: Dictionary<String, Any>
         
-        cell.textLabel?.text = tableArr[indexPath.row]["display_name"]
+        if isFiltering() {
+            item = filteredList[indexPath.row] as Dictionary<String, Any>
+        } else {
+            item = tableArr[indexPath.row] as Dictionary<String, Any>
+            
+        }
         
-        cell.tag = indexPath.row
+        cell.textLabel?.text = item["display_name"] as? String
+        cell.textLabel?.numberOfLines = 0
+        cell.tag = (item["id"] as! Int)
         return cell
     }
     
@@ -190,7 +267,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        tableView.deselectRow(at: indexPath, animated: true)
         //self.performSegue(withIdentifier: "showbooklist", sender: self)
         /*let bundle = Bundle.main
         let storyboard = UIStoryboard(name: "Main", bundle: bundle)
@@ -203,10 +280,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showbooklist" {
             if let cell = sender as? UITableViewCell {
-                let i = tableView.indexPath(for: cell)!.row
+                let i = cell.tag//tableView.indexPath(for: cell)!.row
                 let vc = segue.destination as! BookListViewController
-                vc.category = tableArr[i]["list_name_encoded"]
-                vc.last_saved_str = tableArr[i]["last_saved"]
                 vc.categoryObj = self.categoryItems[i]
             }
         }
@@ -222,5 +297,23 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         })
     }
     
+
+    // MARK: - Private instance methods
+    
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        filteredList = tableArr.filter ({ (dict: Dictionary<String, Any>) -> Bool in
+            return (dict["display_name"] as! String).lowercased().contains(searchText.lowercased())
+        })
+        tableView.reloadData()
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
 
 }
