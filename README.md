@@ -4,7 +4,7 @@
 ### iOS 11
 ![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/iOS11.png)
 
-### iOS 11
+### iOS 10
 ![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/iOS10.png)
 
 ### List of Books
