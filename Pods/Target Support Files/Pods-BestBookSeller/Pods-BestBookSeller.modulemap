@@ -1,0 +1,6 @@
+framework module Pods_BestBookSeller {
+  umbrella header "Pods-BestBookSeller-umbrella.h"
+
+  export *
+  module * { export * }
+}

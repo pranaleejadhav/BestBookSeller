@@ -116,7 +116,7 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
         
         last_saved = categoryObj.last_saved
         if Connectivity.isConnectedToInternet {
-            if last_saved == nil || ( findDateDifference(old_date: last_saved!) > 0){
+           if last_saved == nil || ( findDateDifference(old_date: last_saved!) > 0){
                 getDataFromApi()
             } else {
                 getSavedData()
