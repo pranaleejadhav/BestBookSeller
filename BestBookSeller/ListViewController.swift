@@ -114,14 +114,13 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if tableArr.count == 0 {
         
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 80))
-        
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 80))
-        label.text = "List not found"
-        label.textAlignment = .center
-        label.textColor = #colorLiteral(red: 0.1765674055, green: 0.4210852385, blue: 0.8841049075, alpha: 1)
-        footerView.addSubview(label)
-        return footerView
+            let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 80))
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 80))
+            label.text = "List not found"
+            label.textAlignment = .center
+            label.textColor = #colorLiteral(red: 0.1765674055, green: 0.4210852385, blue: 0.8841049075, alpha: 1)
+            footerView.addSubview(label)
+            return footerView
         } else {
             return nil
         }
@@ -256,7 +255,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             for data in categoryItems  {
                 tableArr.append(["id":data.value(forKey: "id") as! Int, "display_name":data.value(forKey: "display_name") as! String])
             }
-            self.tableView.reloadData()
+        tableView.reloadData()
         
     }
     

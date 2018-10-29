@@ -193,9 +193,8 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
                 do {
                     // save data in coredata
                     try self.context.save()
+                    // reorder and reload tableview
                     self.reorder()
-                    // reload tableview
-                    self.tableView.reloadData()
                 } catch {
                     print("Failed saving")
                 }
@@ -222,7 +221,6 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             currOrder = categoryObj.order
             reorder()
-            self.tableView.reloadData()
         }
         
     }
