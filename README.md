@@ -1,22 +1,5 @@
 # NYTimes Bestseller App
 
-### Screenshots:
-### iOS 11
-![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/iOS11.png)
-
-### iOS 10
-![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/iOS10.png)
-
-### List of Books
-![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/page2.png)
-
-### Book Details
-![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/page3_1.png)
-
-### Book Details
-![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/page3_2.png)
-
-
 ### Language: Swift v4
 
 ## Required Tools
@@ -37,6 +20,22 @@
 - Data can be viewed in offline mode also, if data is available in coredata.
 - Search functionality to filter list of book categories.
 - Save last sort order in list of books for each book category.
+
+### Screenshots:
+### iOS 11
+![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/iOS11.png)
+
+### iOS 10
+![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/iOS10.png)
+
+### List of Books
+![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/page2.png)
+
+### Book Details
+![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/page3_1.png)
+
+### Book Details
+![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/page3_2.png)
 
 ## Coredata Schema
 ### Two Entities : BookCategory & Book
