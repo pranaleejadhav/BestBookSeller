@@ -25,28 +25,28 @@ Language: Swift v4
 - Save last sort order in list of books for each book category.
 
 ## Coredata Schema:
-Two Entities : BookCategory & Book
+### Two Entities : BookCategory & Book
 BookCategory is in one to many relationship with Book.
 
-Entity: BookCategory
+### Entity: BookCategory
 
-id : to order data as fetched from web api
-display_name : display name of book category
-list_name_encoded : encoded name of book category
-modified_date : to remove old data which is no longer needed
-order: sort order of book list
-last_saved : last date of saved list of books
+- id : to order data as fetched from web api
+- display_name : display name of book category
+- list_name_encoded : encoded name of book category
+- modified_date : to remove old data which is no longer needed
+- order: sort order of book list
+- last_saved : last date of saved list of books
 
-Entity: Book
+### Entity: Book
 
-rank : rank of book
-book_title : name of book
-author : name of author
-book_description: description of book
-modified_date : to remove old data which is no longer needed
-weeks_on_list : weeks on list
-review_link : review links of book
-amazon_product_link : amazon product link of book
+- rank : rank of book
+- book_title : name of book
+- author : name of author
+- book_description: description of book
+- modified_date : to remove old data which is no longer needed
+- weeks_on_list : weeks on list
+- review_link : review links of book
+- amazon_product_link : amazon product link of book
 
 ## Files:
 
