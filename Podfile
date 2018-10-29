@@ -9,5 +9,4 @@ target 'BestBookSeller' do
   pod 'Alamofire'
   pod 'SVProgressHUD'
   pod 'SwiftyJSON', '~> 4.0'
-  
 end

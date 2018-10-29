@@ -27,7 +27,7 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         context = self.appDelegate.persistentContainer.viewContext
-        
+        tableView.tableFooterView = UIView()
         // set navigation bar
         let label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: 44.0))
         label.backgroundColor = UIColor.clear
@@ -116,7 +116,7 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
         
         last_saved = categoryObj.last_saved
         if Connectivity.isConnectedToInternet {
-           if last_saved == nil || ( findDateDifference(old_date: last_saved!) > 0){
+            if last_saved == nil || ( findDateDifference(old_date: last_saved!) > 0){
                 getDataFromApi()
             } else {
                 getSavedData()
@@ -185,6 +185,7 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
                     book.review_link = review_links
                     book.amazon_product_url = amazon_link
                     book.modified_date = self.today_date
+                    book.id = self.categoryObj.id
                     self.categoryObj.addToBooklist(book)
                     self.categoryObj.last_saved = Date()
                     self.categoryObj.order = self.currOrder

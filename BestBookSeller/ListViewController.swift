@@ -33,7 +33,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         context = self.appDelegate.persistentContainer.viewContext
-        //tableView.tableFooterView = UIView()
+        tableView.tableFooterView = UIView()
         tableView.keyboardDismissMode = .onDrag // dismiss keyboard on scroll
         
         // configure navigation bar
@@ -251,10 +251,10 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         getBookItems()
         tableArr.removeAll()
-            // save data in table array
-            for data in categoryItems  {
-                tableArr.append(["id":data.value(forKey: "id") as! Int, "display_name":data.value(forKey: "display_name") as! String])
-            }
+        // save data in table array
+        for data in categoryItems  {
+           tableArr.append(["id":data.value(forKey: "id") as! Int, "display_name":data.value(forKey: "display_name") as! String])
+        }
         tableView.reloadData()
         
     }
