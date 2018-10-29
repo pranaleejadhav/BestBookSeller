@@ -5,26 +5,26 @@ Screenshots:
 
 Language: Swift v4
 
-## Required Tools:
+## Required Tools
 
 - Alamofire
 - SVProgressHUD
 - SwiftyJSON
 
-## Features:
+## Features
 - Display list of book categories.
 - On click of a category, display corresponding list of books.
 - List of books can be ordered by rank or weeks on list.
 - By selecting a book, it should display details of book like book name, author's name, description.
 - In book details, it should also display amazon_product link and review_links if present.
 
-## Extra Features:
+## Extra Features
 - Data Caching for list of book categories and list of books for each book category. (Using coredata and relationships to easily update the old data and relate list of books with book category)
 - Data can be viewed in offline mode also, if data is available in coredata.
 - Search functionality to filter list of book categories.
 - Save last sort order in list of books for each book category.
 
-## Coredata Schema:
+## Coredata Schema
 ### Two Entities : BookCategory & Book
 BookCategory is in one to many relationship with Book.
 
@@ -48,7 +48,7 @@ BookCategory is in one to many relationship with Book.
 - review_link : review links of book
 - amazon_product_link : amazon product link of book
 
-## Files:
+## Files
 
 ListViewController: 
 - Last date of saving data is saved in userdefaults.
