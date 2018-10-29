@@ -8,21 +8,20 @@
 
 import UIKit
 
-
 class BookDetailsViewController: UIViewController {
 
     @IBOutlet weak var book_title: UILabel!
     @IBOutlet weak var author: UILabel!
     @IBOutlet weak var desc: UILabel!
-    var bookDict = Dictionary<String,Any>()
-    
     @IBOutlet weak var amazon_link: UITextView!
     @IBOutlet weak var review_link: UITextView!
+    var bookDict = Dictionary<String,Any>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Book Details"
-        //navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-
+        
+        // set view values from dictionary
         book_title.text = bookDict["book_name"] as? String
         author.text = bookDict["author"] as? String
         desc.text = bookDict["book_description"] as? String

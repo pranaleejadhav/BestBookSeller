@@ -27,51 +27,99 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         context = self.appDelegate.persistentContainer.viewContext
-        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        tableView.tableFooterView = UIView()
-        dateFormatter.dateFormat = "yyyy-mm-dd"
-        today_date = dateFormatter.string(from: Date())
+        
+        // set navigation bar
         let label = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: 44.0))
         label.backgroundColor = UIColor.clear
         label.numberOfLines = 0
         label.textColor = UIColor.white
         label.font = UIFont.boldSystemFont(ofSize: 17)
-        //[infoLabel setFont:[UIFont boldSystemFontOfSize:16]];
         label.textAlignment = NSTextAlignment.center
         label.text = categoryObj.display_name
         self.navigationItem.titleView = label
-        //self.title = categoryObj.display_name
-        //self.navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        /*if last_saved_str != "" {
-            last_saved = self.dateFormatter.date(from: categoryObj.last_saved)
-        }*/
+        
+        // get data
         fetchList()
     }
     
-    func findDateDifference(old_date: Date)->Int{
-        let components = Calendar.current.dateComponents([.weekOfYear], from: old_date, to: Date())
-        return components.weekOfYear!
+    // MARK: - TableView Functions
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
     
-    //fetch data
-    func fetchList() -> Void {
-        //SVProgressHUD.show()
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if Connectivity.isConnectedToInternet {
-            //let userdefaults = UserDefaults.standard
-            last_saved = categoryObj.last_saved
-            print("last saved \(last_saved)")
-            //getDataFromApi()
+        return tableArr.count
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellItem")!
+        cell.textLabel?.text = tableArr[indexPath.row]["book_name"] as? String
+        cell.textLabel?.numberOfLines = 0
+        return cell
+    }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return 60;
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if tableArr.count == 0 {
             
+            let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 80))
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 80))
+            label.text = "No Books Found"
+            label.textAlignment = .center
+            label.textColor = #colorLiteral(red: 0.1765674055, green: 0.4210852385, blue: 0.8841049075, alpha: 1)
+            footerView.addSubview(label)
+            return footerView
+        } else {
+            return nil
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if tableArr.count == 0 {
+            return 80
+        } else {
+            return 0
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showbookdetails" {
+            if let cell = sender as? UITableViewCell {
+                let i = tableView.indexPath(for: cell)!.row
+                let vc = segue.destination as! BookDetailsViewController
+                vc.bookDict = tableArr[i] // pass dictionary
+            }
+            
+        }
+        
+    }
+    
+    // MARK: - Fetch Data
+    
+    func fetchList() -> Void {
+        SVProgressHUD.show()
+        dateFormatter.dateFormat = "yyyy-mm-dd HH:mm:ss"
+        today_date = dateFormatter.string(from: Date())
+        
+        last_saved = categoryObj.last_saved
+        if Connectivity.isConnectedToInternet {
             if last_saved == nil || ( findDateDifference(old_date: last_saved!) > 0){
-                
                 getDataFromApi()
-                
             } else {
-                
                 getSavedData()
-                
             }
         } else {
             if last_saved == nil {
@@ -83,19 +131,20 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
+    
     func getDataFromApi() {
-        print("getDataFromApi \(categoryObj.list_name_encoded)")
+        print("Get Book List From Api \(String(describing: categoryObj.list_name_encoded))")
         getData(server_api: "lists.json", parameters: "&list=" + categoryObj.list_name_encoded!, onSuccess: {(result) in
             SVProgressHUD.dismiss()
             self.tableArr.removeAll()
             let json = JSON(result!)
             if json["results"].exists(){
-                print(json["results"])
                 
                 if self.last_saved != nil {
                     self.deteleOldData()
                 }
-               for row in json["results"].array!{
+                // save data in table array
+                for row in json["results"].array!{
                     let book = Book(context: self.context)
                     let rank = row["rank"].intValue
                     let weeks_on_list = row["weeks_on_list"].intValue
@@ -118,16 +167,15 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
                     if reviews["article_chapter_link"] != "" {
                         review_links += "article_chapter_link: " + reviews["article_chapter_link"].stringValue
                     }
-                
-                if review_links == "" {
-                    review_links = "Not Available"
-                }
-                
-                if amazon_link == "" {
-                    amazon_link = "Not Available"
-                }
                     
-                    let date = self.dateFormatter.date(from: row["bestsellers_date"].stringValue)
+                    if review_links == "" {
+                        review_links = "Not Available"
+                    }
+                    
+                    if amazon_link == "" {
+                        amazon_link = "Not Available"
+                    }
+                    
                     
                     book.book_title = book_name
                     book.rank = Int32(rank)
@@ -136,7 +184,6 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
                     book.book_description = desc
                     book.review_link = review_links
                     book.amazon_product_url = amazon_link
-                    book.bestsellers_date = date
                     book.modified_date = self.today_date
                     self.categoryObj.addToBooklist(book)
                     self.categoryObj.last_saved = Date()
@@ -144,9 +191,10 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
                     self.tableArr.append(["book_name": book_name, "rank": rank, "weeks": weeks_on_list, "author": author_name, "book_description": desc, "review_link": review_links, "amazon_product_url": amazon_link])
                 }
                 do {
+                    // save data in coredata
                     try self.context.save()
-                   print("last saved \(self.categoryObj.last_saved )")
                     self.reorder()
+                    // reload tableview
                     self.tableView.reloadData()
                 } catch {
                     print("Failed saving")
@@ -155,22 +203,21 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
             
             
         }, onFail: {(error) in
+            SVProgressHUD.dismiss()
             self.showMsg(title: "Error", subTitle: "Please try again")
         })
     }
     
     func getSavedData() {
-        print("getSavedData")
+        print("Get Book List From Coredata \(String(describing: categoryObj.list_name_encoded))")
         SVProgressHUD.dismiss()
-        var books = categoryObj.booklist?.allObjects as! [Book]
-        //books = books.sorted(by: { $0.bestsellers_date! > $1.bestsellers_date! })
+        let books = categoryObj.booklist?.allObjects as! [Book]
         
         do {
             tableArr.removeAll()
-            
+            // save data in table array
             for data in books {
-                //print(data)
-                 self.tableArr.append(["book_name": data.value(forKey: "book_title") as! String, "rank": data.value(forKey: "rank") as! Int, "weeks": data.value(forKey: "weeks_on_list") as! Int, "author": data.value(forKey: "author") as! String, "book_description": data.value(forKey: "book_description") as! String, "review_link": data.value(forKey: "review_link") as! String, "amazon_product_url": data.value(forKey: "amazon_product_url") as! String])
+                self.tableArr.append(["book_name": data.value(forKey: "book_title") as! String, "rank": data.value(forKey: "rank") as! Int, "weeks": data.value(forKey: "weeks_on_list") as! Int, "author": data.value(forKey: "author") as! String, "book_description": data.value(forKey: "book_description") as! String, "review_link": data.value(forKey: "review_link") as! String, "amazon_product_url": data.value(forKey: "amazon_product_url") as! String])
                 
             }
             currOrder = categoryObj.order
@@ -179,66 +226,31 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         
     }
+    
+    func findDateDifference(old_date: Date)->Int{
+        // to find the difference between two dates
+        let components = Calendar.current.dateComponents([.weekOfYear], from: old_date, to: Date())
+        return components.weekOfYear!
+    }
+    
+    
     func deteleOldData() {
         let books = categoryObj.booklist?.allObjects as! [Book]
-        
         let filtered_books = books.filter{ $0.modified_date != today_date }
-        
         for book in filtered_books {
-             context.delete(book)
+            context.delete(book)
         }
         do {
             try context.save()
         } catch {
             print ("There was an error")
         }
-       
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return tableArr.count
         
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellItem")!
-        cell.textLabel?.text = tableArr[indexPath.row]["book_name"] as? String
-        cell.textLabel?.numberOfLines = 0
-        return cell
-    }
     
+    // MARK: - Show Alert Box
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
-    {
-        
-        return 60;//Your custom row height
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //self.performSegue(withIdentifier: "showbookdetails", sender: self)
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showbookdetails" {
-            if let cell = sender as? UITableViewCell {
-                let i = tableView.indexPath(for: cell)!.row
-                let vc = segue.destination as! BookDetailsViewController
-                vc.bookDict = tableArr[i]
-            }
-            /*var temp_user = User(nameStr: helloLb.text!, deptStr: "CS")
-             vc.user = temp_user
-             vc.nameParam = helloLb.text!*/
-        }
-        
-    }
-    
-    //show alert box
     func showMsg(title: String, subTitle: String) -> Void {
         DispatchQueue.main.async(execute: {
             let alertController = UIAlertController(title: title, message:
@@ -247,7 +259,8 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
             self.present(alertController, animated: true, completion: nil)
         })
     }
-
+    
+    // MARK: - Sort By Order
     func reorder() {
         if currOrder {
             segmentedCtrl.selectedSegmentIndex = 0
@@ -273,5 +286,5 @@ class BookListViewController: UIViewController, UITableViewDataSource, UITableVi
         
     }
     
-
+    
 }
