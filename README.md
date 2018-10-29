@@ -1,9 +1,23 @@
 # NYTimes Bestseller App
 
-Screenshots:
+### Screenshots:
+### iOS 11
 ![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/iOS11.png)
 
-Language: Swift v4
+### iOS 11
+![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/iOS10.png)
+
+### List of Books
+![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/page2.png)
+
+### Book Details
+![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/page3_1.png)
+
+### Book Details
+![Alt text](https://github.com/pranaleejadhav/BestBookSeller/blob/master/BestBookSeller/Resources/page3_2.png)
+
+
+### Language: Swift v4
 
 ## Required Tools
 
